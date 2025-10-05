@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Popins:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+/* === GLOBAL === */
+
+/* CSS RESET */
+*,
+:root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 16px;
+  font-weight: normal;
+  scroll-behavior: smooth;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* THEME */
+:root {
+  --color-foreground: #17181c;
+  --color-background: #ffffff;
+
+  --color-primary: #ff7c2bff;
+  --color-primary-hover: #e1681c;
+
+  --color-border: #dbdbdb;
+
+  --base-radius: 0.3rem;
+}
+
+/* BASE */
+body {
+  font-family: "Popins", sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+main {
+  min-height: 100vh;
+}
+
+footer {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  padding: 3rem 0;
+
+  & .title {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  & .copyright {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--base-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  gap: 0.5rem;
+}
+
+.btn {
+  &.btn-primary {
+    background-color: var(--color-primary);
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
+  }
+}
+
+.navbar {
+  z-index: 999;
+  position: fixed;
+  width: 100%;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--base-radius);
+  border: 1px solid var(--color-primary);
+  padding: 0.8rem 3rem;
+  background-color: var(--color-background);
+
+  & .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+}
