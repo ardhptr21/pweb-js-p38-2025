@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipes</title>
+    <script src="https://kit.fontawesome.com/9f28cba828.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
@@ -12,14 +13,39 @@
         <a href="/" class="title">Food Recipes</a>
         <div class="nav-content">
           <p class="hidden" id="greeting"></p>
-          <a href="login.html" class="btn btn-primary" id="login-btn">Login</a>
-          <button class="btn btn-outline btn-primary" id="logout-btn">Logout</button>
+          <a href="login.html" class="btn btn-primary" id="login-btn"
+            >Login <i class="fa-solid fa-user"></i>
+          </a>
+          <button class="btn btn-outline btn-primary" id="logout-btn">
+            Logout <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
         </div>
       </nav>
     </header>
     <main>
       <section class="container home-hero">
-        <!-- TODO -->
+        <div class="carousel" id="home-hero-carousel">
+          <div class="carousel-slides">
+            <img
+              src="./assets/images/carousel/carousel1.jpg"
+              alt="Caro 1"
+              class="carousel-img active"
+            />
+            <img src="assets/images/carousel/carousel2.jpg" alt="Caro 2" class="carousel-img" />
+            <img src="assets/images/carousel/carousel3.jpg" alt="Caro 3" class="carousel-img" />
+          </div>
+          <button class="carousel-btn prev" id="carousel-prev">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="carousel-btn next" id="carousel-next">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <div class="carousel-indicators" id="carousel-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+          </div>
+        </div>
       </section>
       <section class="container home-filter">
         <div class="filter-group">
@@ -125,9 +151,18 @@
             <div class="recipe-content">
               <h3 class="recipe-title">Recipe Title</h3>
               <div class="recipe-info">
-                <div class="recipe-time">15 mins</div>
-                <div class="recipe-difficulty">Easy</div>
-                <div class="recipe-cuisine">Italian</div>
+                <div>
+                  <i class="fa-solid fa-clock"></i>
+                  <span class="recipe-time">15 mins</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-chart-simple"></i>
+                  <span class="recipe-difficulty">Easy</span>
+                </div>
+                <div>
+                  <i class="fa-solid fa-earth-americas"></i>
+                  <span class="recipe-cuisine">Italian</span>
+                </div>
               </div>
               <p class="recipe-ingredients">
                 Ingredients: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
@@ -140,7 +175,32 @@
             </div>
           </div>
           <div class="recipe-action">
-            <button class="btn btn-primary btn-full">View Recipe</button>
+            <button class="btn btn-primary btn-full">
+              <span>View Recipe</span> <i class="fa-solid fa-book"></i>
+            </button>
+          </div>
+        </div>
+      </template>
+      <template id="recipe-skeleton-template">
+        <div class="recipe-card skeleton">
+          <div class="recipe-main">
+            <div class="recipe-img skeleton-img"></div>
+            <div class="recipe-content">
+              <div class="skeleton-title"></div>
+              <div class="recipe-info">
+                <div class="skeleton-info"></div>
+                <div class="skeleton-info"></div>
+                <div class="skeleton-info"></div>
+              </div>
+              <div class="skeleton-text"></div>
+              <div class="recipe-ratings">
+                <div class="skeleton-stars"></div>
+                <div class="skeleton-rating"></div>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-action">
+            <div class="skeleton-btn"></div>
           </div>
         </div>
       </template>

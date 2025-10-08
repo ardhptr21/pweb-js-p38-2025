@@ -81,6 +81,28 @@ const buildCard = (recipe: IRecipe) => {
   return cardNode;
 };
 
+const buildCardSkeleton = (total: number) => {
+  const recipesContainer = document.getElementById("recipes-container") as HTMLDivElement;
+  const recipeSkeletonTemplate = document.getElementById(
+    "recipe-skeleton-template"
+  ) as HTMLTemplateElement;
+
+  const nodes: HTMLElement[] = [];
+
+  for (let i = 0; i < total; i++) {
+    const clone = recipeSkeletonTemplate.content.firstElementChild!.cloneNode(true) as HTMLElement;
+
+    nodes.push(clone);
+    recipesContainer.appendChild(clone);
+  }
+
+  const cleanup = () => {
+    nodes.forEach((node) => node.remove());
+  };
+
+  return cleanup;
+};
+
 const updateRenderRecipes = (recipes: IRecipe[] | Set<IRecipe>, isReplace: boolean = false) => {
   const recipesContainer = document.getElementById("recipes-container") as HTMLDivElement;
   if (isReplace) recipesContainer.innerHTML = "";
@@ -138,6 +160,7 @@ const onSelect = (e: Event) => {
 const onViewMore = async (e: Event) => {
   const target = e.target as HTMLButtonElement;
   RECIPES_STATE.currentPage += 1;
+  const cleanup = buildCardSkeleton(3);
   try {
     const recipes = await getAllRecipes({
       page: RECIPES_STATE.currentPage,
@@ -151,7 +174,46 @@ const onViewMore = async (e: Event) => {
     if (RECIPES_STATE.currentPage * RECIPES_STATE.perPage >= RECIPES_STATE.total) {
       target.style.display = "none";
     }
-  } catch {}
+  } catch {
+  } finally {
+    cleanup();
+  }
+};
+
+const initCarousel = () => {
+  const slides = document.querySelectorAll(
+    "#home-hero-carousel .carousel-img"
+  ) as NodeListOf<HTMLDivElement>;
+  if (slides.length === 0) return;
+  const prevBtn = document.getElementById("carousel-prev") as HTMLButtonElement;
+  const nextBtn = document.getElementById("carousel-next") as HTMLButtonElement;
+  const indicators = document.querySelectorAll(
+    "#carousel-indicators .indicator"
+  ) as NodeListOf<HTMLDivElement>;
+  let current = 0;
+  const showSlide = (idx: number) => {
+    slides.forEach((img, i) => img.classList.toggle("active", i === idx));
+    indicators.forEach((dot, i) => dot.classList.toggle("active", i === idx));
+    current = idx;
+  };
+  prevBtn.addEventListener("click", () => {
+    showSlide((current - 1 + slides.length) % slides.length);
+  });
+  nextBtn.addEventListener("click", () => {
+    showSlide((current + 1) % slides.length);
+  });
+  indicators.forEach((dot, i) => {
+    dot.addEventListener("click", () => showSlide(i));
+  });
+
+  let autoPlay = setInterval(() => nextBtn.click(), 5000);
+  document
+    .getElementById("home-hero-carousel")!
+    .addEventListener("mouseenter", () => clearInterval(autoPlay));
+  document.getElementById("home-hero-carousel")!.addEventListener("mouseleave", () => {
+    autoPlay = setInterval(() => nextBtn.click(), 5000);
+  });
+  showSlide(0);
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -160,6 +222,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const searchInput = document.getElementById("search-input") as HTMLInputElement;
   const cuisineSelect = document.getElementById("cuisine-select") as HTMLSelectElement;
 
+  initCarousel();
   recipeModal.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
     if (target.id === "recipe-modal" || target.id === "close-modal-btn") {
@@ -170,7 +233,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   searchInput.addEventListener("input", onSearch);
   cuisineSelect.addEventListener("change", onSelect);
 
+  const cleanup = buildCardSkeleton(6);
   const recipes = await getAllRecipes();
+  cleanup();
   RECIPES_STATE.recipes = recipes;
   updateRenderRecipes(RECIPES_STATE.recipes);
 

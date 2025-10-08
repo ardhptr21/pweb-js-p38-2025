@@ -80,6 +80,20 @@ const buildCard = (recipe) => {
         .addEventListener("click", () => modalOpen(recipe));
     return cardNode;
 };
+const buildCardSkeleton = (total) => {
+    const recipesContainer = document.getElementById("recipes-container");
+    const recipeSkeletonTemplate = document.getElementById("recipe-skeleton-template");
+    const nodes = [];
+    for (let i = 0; i < total; i++) {
+        const clone = recipeSkeletonTemplate.content.firstElementChild.cloneNode(true);
+        nodes.push(clone);
+        recipesContainer.appendChild(clone);
+    }
+    const cleanup = () => {
+        nodes.forEach((node) => node.remove());
+    };
+    return cleanup;
+};
 const updateRenderRecipes = (recipes, isReplace = false) => {
     const recipesContainer = document.getElementById("recipes-container");
     if (isReplace)
@@ -128,6 +142,7 @@ const onSelect = (e) => {
 const onViewMore = (e) => __awaiter(void 0, void 0, void 0, function* () {
     const target = e.target;
     RECIPES_STATE.currentPage += 1;
+    const cleanup = buildCardSkeleton(3);
     try {
         const recipes = yield getAllRecipes({
             page: RECIPES_STATE.currentPage,
@@ -142,13 +157,49 @@ const onViewMore = (e) => __awaiter(void 0, void 0, void 0, function* () {
             target.style.display = "none";
         }
     }
-    catch (_a) { }
+    catch (_a) {
+    }
+    finally {
+        cleanup();
+    }
 });
+const initCarousel = () => {
+    const slides = document.querySelectorAll("#home-hero-carousel .carousel-img");
+    if (slides.length === 0)
+        return;
+    const prevBtn = document.getElementById("carousel-prev");
+    const nextBtn = document.getElementById("carousel-next");
+    const indicators = document.querySelectorAll("#carousel-indicators .indicator");
+    let current = 0;
+    const showSlide = (idx) => {
+        slides.forEach((img, i) => img.classList.toggle("active", i === idx));
+        indicators.forEach((dot, i) => dot.classList.toggle("active", i === idx));
+        current = idx;
+    };
+    prevBtn.addEventListener("click", () => {
+        showSlide((current - 1 + slides.length) % slides.length);
+    });
+    nextBtn.addEventListener("click", () => {
+        showSlide((current + 1) % slides.length);
+    });
+    indicators.forEach((dot, i) => {
+        dot.addEventListener("click", () => showSlide(i));
+    });
+    let autoPlay = setInterval(() => nextBtn.click(), 5000);
+    document
+        .getElementById("home-hero-carousel")
+        .addEventListener("mouseenter", () => clearInterval(autoPlay));
+    document.getElementById("home-hero-carousel").addEventListener("mouseleave", () => {
+        autoPlay = setInterval(() => nextBtn.click(), 5000);
+    });
+    showSlide(0);
+};
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     recipeModal = document.getElementById("recipe-modal");
     const viewMoreBtn = document.getElementById("view-more-btn");
     const searchInput = document.getElementById("search-input");
     const cuisineSelect = document.getElementById("cuisine-select");
+    initCarousel();
     recipeModal.addEventListener("click", (e) => {
         const target = e.target;
         if (target.id === "recipe-modal" || target.id === "close-modal-btn") {
@@ -157,7 +208,9 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
     });
     searchInput.addEventListener("input", onSearch);
     cuisineSelect.addEventListener("change", onSelect);
+    const cleanup = buildCardSkeleton(6);
     const recipes = yield getAllRecipes();
+    cleanup();
     RECIPES_STATE.recipes = recipes;
     updateRenderRecipes(RECIPES_STATE.recipes);
     viewMoreBtn.addEventListener("click", onViewMore);
