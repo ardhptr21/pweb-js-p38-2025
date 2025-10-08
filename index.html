@@ -10,8 +10,10 @@
     <header>
       <nav class="navbar container">
         <a href="/" class="title">Food Recipes</a>
-        <div>
-          <a href="login.html" class="btn btn-primary">Login</a>
+        <div class="nav-content">
+          <p class="hidden" id="greeting"></p>
+          <a href="login.html" class="btn btn-primary" id="login-btn">Login</a>
+          <button class="btn btn-outline btn-primary" id="logout-btn">Logout</button>
         </div>
       </nav>
     </header>
@@ -23,8 +25,104 @@
         <!-- TODO -->
       </section>
       <section class="container home-recipes">
-        <!-- TODO -->
+        <div class="recipes-container" id="recipes-container">
+          <template id="recipe-card-template">
+            <div class="recipe-card">
+              <div class="recipe-main">
+                <div class="recipe-img">
+                  <img src="" alt="" loading="lazy" />
+                </div>
+                <div class="recipe-content">
+                  <h3 class="recipe-title">Recipe Title</h3>
+                  <div class="recipe-info">
+                    <div class="recipe-time">15 mins</div>
+                    <div class="recipe-difficulty">Easy</div>
+                    <div class="recipe-cuisine">Italian</div>
+                  </div>
+                  <p class="recipe-ingredients">
+                    Ingredients: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                    quod.
+                  </p>
+                  <div class="recipe-ratings">
+                    <p class="recipe-stars">⭐</p>
+                    <p class="recipe-rating">4.5</p>
+                  </div>
+                </div>
+              </div>
+              <div class="recipe-action">
+                <button class="btn btn-primary btn-full">View Recipe</button>
+              </div>
+            </div>
+          </template>
+        </div>
+        <button class="btn btn-primary view-more btn-full" id="view-more-btn">View More</button>
       </section>
+      <div class="recipe-modal" id="recipe-modal">
+        <div class="recipe-content">
+          <div class="recipe-head">
+            <h2 class="title">Recipe Title</h2>
+            <button class="btn btn-close" id="close-modal-btn">Close</button>
+          </div>
+          <div class="recipe-body">
+            <div class="highlight">
+              <img src="" alt="" class="highlight-img" />
+              <div class="highlight-info">
+                <div class="common-info">
+                  <div class="info">
+                    <p class="title">PREP TIME</p>
+                    <p class="description prep-time">15 mins</p>
+                  </div>
+                  <div class="info">
+                    <p class="title">COOK TIME</p>
+                    <p class="description cook-time">15 mins</p>
+                  </div>
+                  <div class="info">
+                    <p class="title">SERVINGS</p>
+                    <p class="description servings">4</p>
+                  </div>
+                  <div class="info">
+                    <p class="title">DIFFICULTY</p>
+                    <p class="description difficulty">Easy</p>
+                  </div>
+                  <div class="info">
+                    <p class="title">CUISINE</p>
+                    <p class="description cuisine">Mexican</p>
+                  </div>
+                  <div class="info">
+                    <p class="title">CALORIES</p>
+                    <p class="description calories">500 cal/serving</p>
+                  </div>
+                </div>
+                <div class="rating-info">
+                  <p class="rating-stars">⭐⭐⭐⭐</p>
+                  <p class="rating-value">4.5</p>
+                </div>
+                <div class="tags-info">
+                  <p class="tag">Elote</p>
+                  <p class="tag">Mexican</p>
+                  <p class="tag">Street Food</p>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <h3 class="title">Ingredients</h3>
+              <ul class="ingredient-list">
+                <li>Corn on the cob</li>
+                <li>Corn on the cob</li>
+                <li>Corn on the cob</li>
+              </ul>
+            </div>
+            <div class="section">
+              <h3 class="title">Instructions</h3>
+              <ol class="instruction-list">
+                <li>Gril or roast corn on the cob until kernels are charred.</li>
+                <li>Gril or roast corn on the cob until kernels are charred.</li>
+                <li>Gril or roast corn on the cob until kernels are charred.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
     <footer>
       <div class="container">
@@ -36,5 +134,7 @@
         </div>
       </div>
     </footer>
+    <script src="./assets/js/auth.js"></script>
+    <script src="./assets/js/home.js"></script>
   </body>
 </html>

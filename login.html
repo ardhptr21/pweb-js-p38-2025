@@ -10,13 +10,56 @@
     <header>
       <nav class="navbar container">
         <a href="/" class="title">Food Recipes</a>
-        <div>
-          <a href="login.html" class="btn btn-primary">Login</a>
+        <div class="nav-content">
+          <p class="hidden" id="greeting"></p>
+          <a href="login.html" class="btn btn-primary" id="login-btn">Login</a>
+          <button class="btn btn-outline btn-primary" id="logout-btn">Logout</button>
         </div>
       </nav>
     </header>
     <main>
-      <section class="container login"></section>
+      <section class="login">
+        <div class="container">
+          <div class="login-card">
+            <div class="login-form">
+              <div class="form-head">
+                <h2 class="title">Login</h2>
+                <p class="description">
+                  Welcome back, culinary explorer! Log in to continue your delicious journey with
+                  us.
+                </p>
+              </div>
+              <form id="form-login" class="form-content">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="username"
+                    name="username"
+                    id="username"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <div class="alert" id="alert-login"></div>
+              </form>
+            </div>
+            <div class="login-banner">
+              <img src="./assets/images/login-banner.jpg" alt="recipe login banner" />
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <footer>
       <div class="container">
@@ -28,5 +71,6 @@
         </div>
       </div>
     </footer>
+    <script src="./assets/js/auth.js"></script>
   </body>
 </html>
