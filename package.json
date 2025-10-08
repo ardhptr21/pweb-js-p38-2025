@@ -1,0 +1,14 @@
+{
+  "name": "pweb-js-p38-2025",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "npx tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
