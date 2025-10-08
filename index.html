@@ -22,39 +22,32 @@
         <!-- TODO -->
       </section>
       <section class="container home-filter">
-        <!-- TODO -->
+        <div class="filter-group">
+          <input type="text" id="search-input" placeholder="Search recipes..." />
+          <select name="cuisine" id="cuisine-select">
+            <option value="" selected>All Cuisines</option>
+            <option value="American">American</option>
+            <option value="Asian">Asian</option>
+            <option value="Brazilian">Brazilian</option>
+            <option value="Greek">Greek</option>
+            <option value="Indian">Indian</option>
+            <option value="Italian">Italian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Korean">Korean</option>
+            <option value="Lebanese">Lebanese</option>
+            <option value="Mediterranean">Mediterranean</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Moroccan">Moroccan</option>
+            <option value="Pakistani">Pakistani</option>
+            <option value="Russian">Russian</option>
+            <option value="Smoothie">Smoothie</option>
+            <option value="Thai">Thai</option>
+            <option value="Turkish">Turkish</option>
+          </select>
+        </div>
       </section>
       <section class="container home-recipes">
-        <div class="recipes-container" id="recipes-container">
-          <template id="recipe-card-template">
-            <div class="recipe-card">
-              <div class="recipe-main">
-                <div class="recipe-img">
-                  <img src="" alt="" loading="lazy" />
-                </div>
-                <div class="recipe-content">
-                  <h3 class="recipe-title">Recipe Title</h3>
-                  <div class="recipe-info">
-                    <div class="recipe-time">15 mins</div>
-                    <div class="recipe-difficulty">Easy</div>
-                    <div class="recipe-cuisine">Italian</div>
-                  </div>
-                  <p class="recipe-ingredients">
-                    Ingredients: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                    quod.
-                  </p>
-                  <div class="recipe-ratings">
-                    <p class="recipe-stars">⭐</p>
-                    <p class="recipe-rating">4.5</p>
-                  </div>
-                </div>
-              </div>
-              <div class="recipe-action">
-                <button class="btn btn-primary btn-full">View Recipe</button>
-              </div>
-            </div>
-          </template>
-        </div>
+        <div class="recipes-container" id="recipes-container"></div>
         <button class="btn btn-primary view-more btn-full" id="view-more-btn">View More</button>
       </section>
       <div class="recipe-modal" id="recipe-modal">
@@ -123,6 +116,34 @@
           </div>
         </div>
       </div>
+      <template id="recipe-card-template">
+        <div class="recipe-card">
+          <div class="recipe-main">
+            <div class="recipe-img">
+              <img src="" alt="" loading="lazy" />
+            </div>
+            <div class="recipe-content">
+              <h3 class="recipe-title">Recipe Title</h3>
+              <div class="recipe-info">
+                <div class="recipe-time">15 mins</div>
+                <div class="recipe-difficulty">Easy</div>
+                <div class="recipe-cuisine">Italian</div>
+              </div>
+              <p class="recipe-ingredients">
+                Ingredients: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                quod.
+              </p>
+              <div class="recipe-ratings">
+                <p class="recipe-stars">⭐</p>
+                <p class="recipe-rating">4.5</p>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-action">
+            <button class="btn btn-primary btn-full">View Recipe</button>
+          </div>
+        </div>
+      </template>
     </main>
     <footer>
       <div class="container">

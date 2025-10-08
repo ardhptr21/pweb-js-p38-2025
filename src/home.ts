@@ -2,6 +2,8 @@ import { IRecipe, getAllRecipes } from "./utils/recipe.js";
 
 const RECIPES_STATE = {
   recipes: [] as IRecipe[],
+  search: "",
+  filter: "",
   currentPage: 1,
   perPage: 21,
   total: 50,
@@ -79,10 +81,84 @@ const buildCard = (recipe: IRecipe) => {
   return cardNode;
 };
 
+const updateRenderRecipes = (recipes: IRecipe[] | Set<IRecipe>, isReplace: boolean = false) => {
+  const recipesContainer = document.getElementById("recipes-container") as HTMLDivElement;
+  if (isReplace) recipesContainer.innerHTML = "";
+  recipes.forEach((recipe) => {
+    const card = buildCard(recipe);
+    recipesContainer.appendChild(card);
+  });
+};
+
+const filtering = (recipes: IRecipe[], search: string, filter: string) => {
+  return recipes.filter((recipe) => {
+    const cond1 =
+      recipe.name.toLowerCase().includes(search.toLowerCase()) ||
+      recipe.cuisine.toLowerCase().includes(search.toLowerCase()) ||
+      recipe.ingredients.some((ingredient) =>
+        ingredient.toLowerCase().includes(search.toLowerCase())
+      ) ||
+      recipe.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
+    const cond2 = recipe.cuisine.toLowerCase() === filter.toLowerCase();
+    if (search && filter) return cond1 && cond2;
+    if (search) return cond1;
+    if (filter) return cond2;
+    return true;
+  });
+};
+
+const debounceSearch = (func: (e: Event) => void, delay: number) => {
+  let timeoutId: number | undefined;
+  return (e: Event) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      func(e);
+    }, delay);
+  };
+};
+
+const onSearch = debounceSearch((e: Event) => {
+  const target = e.target as HTMLInputElement;
+  RECIPES_STATE.search = target.value;
+  updateRenderRecipes(
+    filtering(RECIPES_STATE.recipes, RECIPES_STATE.search, RECIPES_STATE.filter),
+    true
+  );
+}, 1000);
+
+const onSelect = (e: Event) => {
+  const target = e.target as HTMLSelectElement;
+  RECIPES_STATE.filter = target.value;
+  updateRenderRecipes(
+    filtering(RECIPES_STATE.recipes, RECIPES_STATE.search, RECIPES_STATE.filter),
+    true
+  );
+};
+
+const onViewMore = async (e: Event) => {
+  const target = e.target as HTMLButtonElement;
+  RECIPES_STATE.currentPage += 1;
+  try {
+    const recipes = await getAllRecipes({
+      page: RECIPES_STATE.currentPage,
+    });
+    RECIPES_STATE.recipes = RECIPES_STATE.recipes.concat(recipes);
+    let renderedRecipes = Array.from(recipes);
+    if (RECIPES_STATE.search || RECIPES_STATE.filter) {
+      renderedRecipes = filtering(recipes, RECIPES_STATE.search, RECIPES_STATE.filter);
+    }
+    updateRenderRecipes(renderedRecipes);
+    if (RECIPES_STATE.currentPage * RECIPES_STATE.perPage >= RECIPES_STATE.total) {
+      target.style.display = "none";
+    }
+  } catch {}
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
   recipeModal = document.getElementById("recipe-modal") as HTMLDivElement;
-  const recipesContainer = document.getElementById("recipes-container") as HTMLDivElement;
   const viewMoreBtn = document.getElementById("view-more-btn") as HTMLButtonElement;
+  const searchInput = document.getElementById("search-input") as HTMLInputElement;
+  const cuisineSelect = document.getElementById("cuisine-select") as HTMLSelectElement;
 
   recipeModal.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
@@ -91,26 +167,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  searchInput.addEventListener("input", onSearch);
+  cuisineSelect.addEventListener("change", onSelect);
+
   const recipes = await getAllRecipes();
   RECIPES_STATE.recipes = recipes;
+  updateRenderRecipes(RECIPES_STATE.recipes);
 
-  recipes.forEach((recipe) => {
-    const card = buildCard(recipe);
-    recipesContainer.appendChild(card);
-  });
-
-  viewMoreBtn.addEventListener("click", async () => {
-    RECIPES_STATE.currentPage += 1;
-    const recipes = await getAllRecipes({
-      page: RECIPES_STATE.currentPage,
-    });
-    RECIPES_STATE.recipes = RECIPES_STATE.recipes.concat(recipes);
-    recipes.forEach((recipe) => {
-      const card = buildCard(recipe);
-      recipesContainer.appendChild(card);
-    });
-    if (RECIPES_STATE.currentPage * RECIPES_STATE.perPage >= RECIPES_STATE.total) {
-      viewMoreBtn.style.display = "none";
-    }
-  });
+  viewMoreBtn.addEventListener("click", onViewMore);
 });

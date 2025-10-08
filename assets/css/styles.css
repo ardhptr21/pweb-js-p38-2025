@@ -138,7 +138,8 @@ ul {
 
 /* FORM */
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid var(--color-border);
@@ -278,10 +279,23 @@ label {
 }
 
 /* === HOME PAGE === */
+
+/* HERO SECTION */
 .home-hero {
   min-height: 60vh;
 }
 
+/* FILTER SECTION */
+.filter-group {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: var(--base-radius);
+  display: flex;
+  gap: 1rem;
+  background-color: var(--color-primary);
+}
+
+/* RECIPES SECTION */
 .recipes-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
